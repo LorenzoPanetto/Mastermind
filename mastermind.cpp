@@ -6,9 +6,11 @@
 #include <windows.h>
 #include <conio.h>
 using namespace std;
-const int dim=4; //costante per la dimensione degli array
-int main1();
-int main2();
+// g++ mastermind.cpp -o mastermind.exe
+
+const int dim=4; // Costante per la dimensione degli array
+void main1();
+void main2();
 
 void SetColor(short Color) {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -16,16 +18,14 @@ void SetColor(short Color) {
 }
 
 
-
-struct variabile{
+struct Variabile{
 	int numeri;
 	int colori;
 };
 
 
-
 //controllo valori doppi PC @@panetto
-bool duplicates (int sec[], int dim) {
+bool duplicates(int sec[], int dim) {
     for (int i=0; i<dim; i++) {
         for (int j=0; j<dim; j++) {
             if (sec[i]==sec[j]&&i!=j)
@@ -37,7 +37,7 @@ bool duplicates (int sec[], int dim) {
 
 
 //controllo valori doppi PC @@panetto
-bool duplicatescolor (variabile sec[], int dim) {
+bool duplicatesColor(Variabile sec[], int dim) {
     for (int i=0; i<dim; i++) {
         for (int j=0; j<dim; j++) {
             if ((sec[i].colori==sec[j].colori&&i!=j)||(sec[i].numeri==sec[j].numeri&&i!=j))
@@ -49,7 +49,7 @@ bool duplicatescolor (variabile sec[], int dim) {
 
 
 //creazione codice segreto PC @@bulfoni
-void secretcode(int sec[], int dim) {
+void secretCode(int sec[], int dim) {
     for (int i=0; i<dim; i++) {
         sec[i]=rand()%10;
     }
@@ -65,13 +65,12 @@ void secretcode(int sec[], int dim) {
 }
 
 
-
-void secretcodecolor(variabile sec[], int dim) {
+void secretCodeColor(Variabile sec[], int dim) {
     for (int i=0; i<dim; i++) {
         sec[i].numeri=rand()%10;
         sec[i].colori=rand()%8;
     }
-    while (duplicatescolor(sec, dim)==true) {
+    while (duplicatesColor(sec, dim)==true) {
         for (int i=0; i<dim; i++) {
             sec[i].numeri=rand()%10;
 			sec[i].colori=rand()%8;      	
@@ -96,7 +95,7 @@ bool containes(int arr[], int val, int end) {
 }
 
 
-bool containescolor(variabile arr[], int val, int end) {
+bool containesColor(Variabile arr[], int val, int end) {
     for (int j=0; j<end; j++) {
         if (arr[j].numeri == val)
             return true;
@@ -106,8 +105,7 @@ bool containescolor(variabile arr[], int val, int end) {
 
 
 //input codice utente @@bulfoni
-void inputcode(int code[], int dim)
-{
+void inputCode(int code[], int dim) {
 	//num++;
     for (int i=0; i<dim; i++){
         cin >> code[i];
@@ -123,8 +121,7 @@ void inputcode(int code[], int dim)
 }
 
 
-void inputcodecolor(variabile code[], int dim)
-{
+void inputCodeColor(Variabile code[], int dim) {
 	//num++;
     for (int i=0; i<dim; i++){
         cin >> code[i].numeri;
@@ -135,11 +132,11 @@ void inputcodecolor(variabile code[], int dim)
             cout<<"il colore deve essere compreso tra 0 e 8"<<endl;
             cin>>code[i].colori;
         }
-        while (containescolor(code, code[i].numeri, i)) {
+        while (containesColor(code, code[i].numeri, i)) {
             cout << "inserisci un array di 4 cifre diverse. Ora sostituisci solo la cifra doppia" << endl;
     		cin >> code[i].numeri;
         }
-        while (containescolor(code, code[i].colori, i)) {
+        while (containesColor(code, code[i].colori, i)) {
             cout << "inserisci un array di 4 cifre diverse. Ora sostituisci solo la cifra doppia" << endl;
     		cin >> code[i].colori;
         }
@@ -165,7 +162,7 @@ bool check (int code[], int sec[], int dim) {
 
 
 //indica quanti numeri giusti in posizione sbagliata ci sono nel codice dell'utente rispetto al pc
-int numgiusti (int code[], int sec[], int dim) {
+int numGiusti (int code[], int sec[], int dim) {
 	int num=0; //numeri giusti in posizione sbagliata
 	for (int i=0; i<dim; i++) {
 		for (int j=0; j<dim; j++) {
@@ -178,7 +175,7 @@ int numgiusti (int code[], int sec[], int dim) {
 
 
 //indica quanti numeri giusti in posizione giusta ci sono nel codice dell'utente rispetto al PC
-int posgiusti (int code[], int sec[], int dim) {
+int posGiusti (int code[], int sec[], int dim) {
 	int pos=0; //numeri giusti in posizione giusta
 	for (int i=0; i<dim; i++) {
 		for (int j=0; j<dim; j++) {
@@ -199,8 +196,7 @@ void table (int a[], int num, int pos) {
 }
 
 
-int main ()
-{
+int main () {
 	int mod;
 	cout << "Inserisci la modalita' di gioco: " << endl;
 	cout << "MOD 1: solo numeri tutti diversi tra loro" << endl;
@@ -213,43 +209,37 @@ int main ()
 }
 
 
-
-int main1() 
-{
+void main1() {
 	system("cls");
     srand(time(0));
     int prove=7;
     int secret[dim];
     cout << "codice segreto generato dal PC: ";
-    secretcode(secret, dim);
+    secretCode(secret, dim);
     int codeut[dim];
 	cout<<"inserire il codice"<<endl;
-    inputcode(codeut, dim);
+    inputCode(codeut, dim);
     system("CLS");
-    table(codeut, numgiusti(codeut, secret, dim), posgiusti(codeut, secret, dim));
-    while (check(codeut, secret, dim)==false&&prove>0)
-    {
-    	inputcode(codeut, dim);
-    	table(codeut, numgiusti(codeut, secret, dim), posgiusti(codeut, secret, dim));
+    table(codeut, numGiusti(codeut, secret, dim), posGiusti(codeut, secret, dim));
+    while (check(codeut, secret, dim) == false && prove>0) {
+    	inputCode(codeut, dim);
+    	table(codeut, numGiusti(codeut, secret, dim), posGiusti(codeut, secret, dim));
     	prove--;
 	}
-    return 0;
 }
 
 
-
-int main2()
-{
+void main2() {
 	system("cls");
     srand(time(0));
     int prove=7;
-    variabile secret[dim];
+    Variabile secret[dim];
     
     cout << "codice segreto generato dal PC: " << endl;
-    secretcodecolor(secret, dim);
+    secretCodeColor(secret, dim);
     
-/*   
-    variabile codeut[dim];
+    /*   
+    Variabile codeut[dim];
 	cout<<"inserire il codice"<<endl;
     inputcodecolor(codeut, dim);
     system("CLS");
@@ -262,5 +252,5 @@ int main2()
     	prove--;
 	}
     return 0;
-*/	
+    */	
 }
