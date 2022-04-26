@@ -187,12 +187,14 @@ int posGiusti (int code[], int sec[], int dim) {
 }
 
 
-void table (int a[], int num, int pos) {
-	cout<<endl;
-	cout<<" _____ _____ _____ _____ _____ _____ _____ "<<endl;
-	cout<<"|     |     |     |     |     |     |     |"<<endl;
-	cout<<"|  "<<a[0]<<"  |  "<<a[1]<<"  |  "<<a[2]<<"  |  "<<a[3]<<"  |"<<"     |  "<<num<<"  |  "<<pos<<"  |  " << endl;
-	cout<<"|_____|_____|_____|_____|_____|_____|_____|"<<endl;
+void table(int a[][6], int num) {
+    system("cls");
+    cout<<" _____ _____ _____ _____       _____ _____ "<<endl;
+    for (int i=0; i<num; i++) {
+        cout<<"|     |     |     |     |     |     |     |"<<endl;
+        cout<<"|  "<<a[i][0]<<"  |  "<<a[i][1]<<"  |  "<<a[i][2]<<"  |  "<<a[i][3]<<"  |"<<"     |  "<<a[i][4]<<"  |  "<<a[i][5]<<"  |  " << endl;
+        cout<<"|_____|_____|_____|_____|     |_____|_____|"<<endl;
+    }
 }
 
 
@@ -212,7 +214,8 @@ int main () {
 void main1() {
 	system("cls");
     srand(time(0));
-    int prove=7;
+    int prove=7, fatte=0;
+    int tentativi[prove][6]; // Matrice dei tentativi
     int secret[dim];
     cout << "codice segreto generato dal PC: ";
     secretCode(secret, dim);
@@ -220,11 +223,22 @@ void main1() {
 	cout<<"inserire il codice"<<endl;
     inputCode(codeut, dim);
     system("CLS");
-    table(codeut, numGiusti(codeut, secret, dim), posGiusti(codeut, secret, dim));
+    for (int i=0; i<dim; i++) {
+        tentativi[0][i]=codeut[i]; // Inserisco il codice utente nelle prime dim colonne della matrice
+    }
+    tentativi[0][4] = numGiusti(codeut, secret, dim); // Inserisco il numero di numeri giusti nelle prime dim colonne della matrice
+    tentativi[0][5] = posGiusti(codeut, secret, dim); // Inserisco il numero di numeri giusti in posizione giusta nelle prime dim colonne della matrice
+    table(tentativi, 1); // 2, numero di righe da stampare 
     while (check(codeut, secret, dim) == false && prove>0) {
     	inputCode(codeut, dim);
-    	table(codeut, numGiusti(codeut, secret, dim), posGiusti(codeut, secret, dim));
-    	prove--;
+        fatte++;
+        for (int i=0; i<dim; i++) {
+            tentativi[fatte][i]=codeut[i]; // Inserisco il codice utente nelle prime dim colonne della matrice
+        }
+        tentativi[fatte][4] = numGiusti(codeut, secret, dim); // Inserisco il numero di numeri giusti nelle prime dim colonne della matrice
+        tentativi[fatte][5] = posGiusti(codeut, secret, dim); // Inserisco il numero di numeri giusti in posizione giusta nelle prime dim colonne della matrice
+    	table(tentativi, fatte+1); // fatte+1 è il numero di righe da stampare 
+        prove--;
 	}
 }
 
