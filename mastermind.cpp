@@ -67,23 +67,21 @@ void secretCode(int sec[], int dim) {
 
 void secretCodeColor(Variabile sec[], int dim) {
     for (int i=0; i<dim; i++) {
-        sec[i].numeri=rand()%10;
         sec[i].colori=rand()%8;
     }
     while (duplicatesColor(sec, dim)==true) {
         for (int i=0; i<dim; i++) {
-            sec[i].numeri=rand()%10;
 			sec[i].colori=rand()%8;      	
         }
     }
     
     for (int k=0; k<dim; k++) {
     	SetColor(sec[k].colori);
-    	cout << sec[k].numeri << " " << endl;
+    	cout << "#" << " ";
 	}
     SetColor(7);
 }
- 
+
 
 //controllo se il valore inserito dall'utente è già presente nell'array @@panetto
 bool containes(int arr[], int val, int end) {
@@ -122,19 +120,11 @@ void inputCode(int code[], int dim) {
 
 
 void inputCodeColor(Variabile code[], int dim) {
-	//num++;
     for (int i=0; i<dim; i++){
-        cin >> code[i].numeri;
         cin >> code[i].colori;
-        while((code[i].numeri<0||code[i].numeri>9)||(code[i].colori<0||code[i].colori>8)) {
-            cout<<"il numero deve essere compreso tra 0 e 9"<<endl;
-            cin>>code[i].numeri;
+        while(code[i].colori<0||code[i].colori>8) {
             cout<<"il colore deve essere compreso tra 0 e 8"<<endl;
             cin>>code[i].colori;
-        }
-        while (containesColor(code, code[i].numeri, i)) {
-            cout << "inserisci un array di 4 cifre diverse. Ora sostituisci solo la cifra doppia" << endl;
-    		cin >> code[i].numeri;
         }
         while (containesColor(code, code[i].colori, i)) {
             cout << "inserisci un array di 4 cifre diverse. Ora sostituisci solo la cifra doppia" << endl;
@@ -151,6 +141,15 @@ void outputcode (int code[], int dim) {
 }
 
 
+void outputCodeColor (int code[], int dim) {
+    for (int k=0; k<dim; k++) {
+    	SetColor(code[k].colori);
+    	cout << "#" << " ";
+	}
+    SetColor(7);
+}
+
+
 //controlla se tutti i valori inseriti dall'utente sono uguali al codice del computer
 bool check (int code[], int sec[], int dim) {
 	for (int i=0; i<dim; i++) {
@@ -160,6 +159,14 @@ bool check (int code[], int sec[], int dim) {
 	return true;
 }
 
+
+bool checkColor (Variabile code[], Variabile sec[], int dim) {
+	for (int i=0; i<dim; i++) {
+		if (code[i].colori!=sec[i].colori)
+			return false;
+	}
+	return true;
+}
 
 //indica quanti numeri giusti in posizione sbagliata ci sono nel codice dell'utente rispetto al pc
 int numGiusti (int code[], int sec[], int dim) {
@@ -171,6 +178,18 @@ int numGiusti (int code[], int sec[], int dim) {
 		}
 	}
 	return num;
+}
+
+
+int GiustiColor (Variabile code[], Variabile sec[], int dim) {
+	int color=0; //numeri giusti in posizione sbagliata
+	for (int i=0; i<dim; i++) {
+		for (int j=0; j<dim; j++) {
+			if ((sec[i].colori==code[j].colori&&i!=j))
+				color++;
+		}
+	}
+	return color;
 }
 
 
@@ -186,6 +205,17 @@ int posGiusti (int code[], int sec[], int dim) {
 	return pos;
 }
 
+
+int posGiustiColor (Variabile code[], Variabile sec[], int dim) {
+	int pos=0; //numeri giusti in posizione giusta
+	for (int i=0; i<dim; i++) {
+		for (int j=0; j<dim; j++) {
+			if (sec[i].colori==code[j].colori&&i==j)
+				pos++;
+		}
+	}
+	return pos;
+}
 
 void table(int a[][6], int num) {
     system("cls");
@@ -247,24 +277,30 @@ void main2() {
 	system("cls");
     srand(time(0));
     int prove=7;
+    int tentativi[prove][6];
     Variabile secret[dim];
     
     cout << "codice segreto generato dal PC: " << endl;
     secretCodeColor(secret, dim);
-    
-    /*   
     Variabile codeut[dim];
 	cout<<"inserire il codice"<<endl;
-    inputcodecolor(codeut, dim);
+    inputCodeColor(codeut, dim);
     system("CLS");
-    table(codeut, numgiusti(codeut, secret, dim), posgiusti(codeut, secret, dim));
-    while (check(codeut, secret, dim)==false&&prove>0)
-    {
-    	inputcode(codeut, dim);
-    	system("CLS");
-    	table(codeut, numgiusti(codeut, secret, dim), posgiusti(codeut, secret, dim));
-    	prove--;
+    for (int i=0; i<dim; i++) {
+        tentativi[0][i]=codeut[i]; // Inserisco il codice utente nelle prime dim colonne della matrice
+    }
+    tentativi[0][4] = GiustiColor(codeut, secret, dim); // Inserisco il numero di numeri giusti nelle prime dim colonne della matrice
+    tentativi[0][5] = posGiustiColor(codeut, secret, dim); // Inserisco il numero di numeri giusti in posizione giusta nelle prime dim colonne della matrice
+    table(tentativi, 1); // 2, numero di righe da stampare 
+    while (checkColor(codeut, secret, dim) == false && prove>0) {
+    	inputCodeColor(codeut, dim);
+        fatte++;
+        for (int i=0; i<dim; i++) {
+            tentativi[fatte][i]=codeut[i]; // Inserisco il codice utente nelle prime dim colonne della matrice
+        }
+        tentativi[fatte][4] = GiustiColor(codeut, secret, dim); // Inserisco il numero di numeri giusti nelle prime dim colonne della matrice
+        tentativi[fatte][5] = posGiustiColor(codeut, secret, dim); // Inserisco il numero di numeri giusti in posizione giusta nelle prime dim colonne della matrice
+    	table(tentativi, fatte+1); // fatte+1 è il numero di righe da stampare 
+        prove--;
 	}
-    return 0;
-    */	
 }
