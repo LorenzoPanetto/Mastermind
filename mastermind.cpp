@@ -2,6 +2,7 @@
 #include <time.h>
 #include <cstdlib>
 #include <fstream>
+#include <string>
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
@@ -266,7 +267,7 @@ void main1() {
 	    cout << "Vuoi salvare la partita? Indica yes/no" << endl;
 	    cin >> salvataggio;
 	    if (salvataggio=='y') {
-	        fout.open ("ultima partita giocata.txt", ios::out);
+	        fout.open (xx.nome + ".txt", ios::out);
 	        if (fout) {
 				fout << "Ricorda:" << endl;	    
 				fout << "				1. blu" << endl;
@@ -354,7 +355,7 @@ void main2() {
 	    cout << "Vuoi salvare la partita? Indica yes/no" << endl;
 	    cin >> salvataggio;
 	    if (salvataggio=='y') {
-	        fout.open ("ultima partita giocata.txt", ios::out);
+	        fout.open (xx.nome + ".txt", ios::out);
 	        if (fout) {
 				fout << "Ricorda:" << endl;	    
 				fout << "				1. blu" << endl;
