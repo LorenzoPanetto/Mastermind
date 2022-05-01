@@ -9,10 +9,10 @@
 ###################################################################################################################################################################################################################
 
 Benventuo/a su Mastermind!
-1. Scegli la tua modalità di gioco:
+1. Scegli la tua modalita' di gioco:
 	- MOD 1: solo numeri tutti diversi tra loro
 	- MOD 2: solo colori diversi tra loro
-2. Il computer genererà un codice casuale che tu dovrai indovinare grazie ad una serie di indizi così indicati:
+2. Il computer generera' un codice casuale che tu dovrai indovinare grazie ad una serie di indizi cosi' indicati:
          _____ _____ _____ _____       _____ _____
 	|     |     |     |     |     |     |     |
         |     |     |     |     |     |     |     |
@@ -20,10 +20,10 @@ Benventuo/a su Mastermind!
 		
 	- nei primi quattro riquadri troverai il codice da te inserito
 	- negli ultimi due troverai rispettivamente:
-		- la quantità di numeri/colori giusti al posto sbagliato
-		- la quantità di numeri/colori giusti al posto giusto
-3. Tramite questa serie di indizi hai massimo 13 possibilità per indovinare il codice segreto
-4. Se scegli la seconda modalità ti sarà utile per scegliere il colore questa legenda (ogni numero è associato ad un colore)
+		- la quantita' di numeri/colori giusti al posto sbagliato
+		- la quantita' di numeri/colori giusti al posto giusto
+3. Tramite questa serie di indizi hai massimo 12 possibilita' per indovinare il codice segreto
+4. Se scegli la seconda modalita' ti sara' utile per scegliere il colore questa legenda (ogni numero e' associato ad un colore)
 	1. blu
 	2. verde
 	3. azzurro
